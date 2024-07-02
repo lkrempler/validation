@@ -14,15 +14,14 @@ class Ean extends AbstractRule
      * @param array<int> $lengths
      * @return void
      */
-    public function __construct(protected array $lengths = [8, 13])
+    public function __construct(private array $lengths = [8, 13])
     {
     }
 
     /**
-     * Determine if the validation rule passes.
+     * {@inheritdoc}
      *
-     * @param mixed $value
-     * @return bool
+     * @see Rule::isValid()
      */
     public function isValid(mixed $value): bool
     {
@@ -35,7 +34,7 @@ class Ean extends AbstractRule
      * @param mixed $value
      * @return bool
      */
-    public function hasAllowedLength(mixed $value): bool
+    protected function hasAllowedLength(mixed $value): bool
     {
         return in_array(strlen(strval($value)), $this->lengths);
     }
@@ -58,7 +57,7 @@ class Ean extends AbstractRule
      * @param mixed $value
      * @return int
      */
-    protected function cutChecksum(mixed $value): int
+    private function cutChecksum(mixed $value): int
     {
         return intval(substr(strval($value), -1));
     }
@@ -69,7 +68,7 @@ class Ean extends AbstractRule
      * @param mixed $value
      * @return int
      */
-    protected function calculateChecksum(mixed $value): int
+    private function calculateChecksum(mixed $value): int
     {
         $checksum = 0;
 
